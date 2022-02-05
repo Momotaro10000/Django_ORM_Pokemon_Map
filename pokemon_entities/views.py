@@ -72,7 +72,10 @@ def show_pokemon(request, pokemon_id):
         pokemons_on_page.append(
             {
                 'img_url': pokemon_entity.pokemon.image.url,
-                'title_ru': pokemon_entity.pokemon,
+                'title_ru': pokemon_entity.pokemon.title_ru,
+                'title_en': pokemon_entity.pokemon.title_en,
+                'title_jp': pokemon_entity.pokemon.title_jp,
+                'description': pokemon_entity.pokemon.description,
             }
         )
 
