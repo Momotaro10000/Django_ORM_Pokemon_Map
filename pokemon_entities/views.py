@@ -77,11 +77,11 @@ def show_pokemon(request, pokemon_id):
             request.build_absolute_uri(pokemon_entity.pokemon.image.url)
         )
 
-        # if pokemon_entity.pokemon.previous_evolution:
-        #     pokemons_on_page[0]['previous_evolution'] = {
-        #         'img_url': pokemon_entity.pokemon.previous_evolution.image.url,
-        #         'pokemon_id': pokemon_entity.pokemon.previous_evolution.id,
-        #         'title_ru': pokemon_entity.pokemon.previous_evolution.title_ru}
+    if pokemon.previous_evolution:
+        pokemon_info['previous_evolution'] = {
+            'img_url': pokemon.previous_evolution.image.url,
+            'pokemon_id': pokemon.previous_evolution.id,
+            'title_ru': pokemon.previous_evolution.title_ru}
 
         # if pokemon_entity.pokemon.next_evolution.first():
         #     pokemons_on_page[0]['next_evolution'] = {
