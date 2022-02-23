@@ -3,6 +3,8 @@ import folium
 from django.http import Http404
 from django.shortcuts import render
 from pokemon_entities.models import Pokemon, PokemonEntity
+from contextlib import suppress
+from django.core.exceptions import ObjectDoesNotExist
 
 
 MOSCOW_CENTER = [55.751244, 37.618423]
@@ -83,11 +85,14 @@ def show_pokemon(request, pokemon_id):
             'pokemon_id': pokemon.previous_evolution.id,
             'title_ru': pokemon.previous_evolution.title_ru}
 
-        # if pokemon_entity.pokemon.next_evolution.first():
-        #     pokemons_on_page[0]['next_evolution'] = {
-        #         'img_url': pokemon_entity.pokemon.next_evolution.first().image.url,
-        #         'pokemon_id': pokemon_entity.pokemon.next_evolution.first().id,
-        #         'title_ru': pokemon_entity.pokemon.next_evolution.first().title_ru}
+    with suppress(IndexError, ObjectDoesNotExist):
+        next_evolution = pokemon.next_evolutions.all()
+        if next_evolution[0]:
+            pokemon_info['next_evolution'] = {
+                'img_url': next_evolution[0].image.url,
+                'pokemon_id': next_evolution[0].id,
+                'title_ru': next_evolution[0].title_ru}
+
 
     return render(request, 'pokemon.html', context={
         'map': folium_map._repr_html_(), 'pokemon': pokemon_info
